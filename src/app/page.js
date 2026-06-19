@@ -17,37 +17,58 @@ export default function DashboardPage() {
       try {
         setLoading(true);
         const token = localStorage.getItem("accessToken");
-        const resp = await fetch(
-          "http://localhost:3000/api/or-system/daily-schedule",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        );
-        const result = await resp.json();
+        const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+        const headers = { Authorization: `Bearer ${token}` };
 
-        if (resp.ok && result.data) {
+        const [scheduleResp, bedsResp, usersResp] = await Promise.all([
+          fetch(`${apiBase}/api/or-system/daily-schedule`, { headers }),
+          fetch(`${apiBase}/api/beds`, { headers }),
+          fetch(`${apiBase}/api/users`, { headers }),
+        ]);
+
+        const [scheduleResult, bedsResult, usersResult] = await Promise.all([
+          scheduleResp.json(),
+          bedsResp.json(),
+          usersResp.json(),
+        ]);
+
+        if (scheduleResp.ok && Array.isArray(scheduleResult.data)) {
           const getLocalDateString = (dateStr) => {
             const d = new Date(dateStr);
             return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
           };
 
           const today = getLocalDateString(new Date());
-
-          const todayData = result.data
-            .filter((item) => {
-              return getLocalDateString(item.booking_date) === today;
-            })
+          const todayData = scheduleResult.data
+            .filter((item) => getLocalDateString(item.booking_date) === today)
             .sort((a, b) =>
               a.estimated_start_time.localeCompare(b.estimated_start_time),
             );
 
+          const activeRoomCount = new Set(
+            todayData
+              .filter((caseRow) => caseRow.room_id)
+              .map((caseRow) => caseRow.room_id),
+          ).size;
+
+          const availableBeds = Array.isArray(bedsResult?.data)
+            ? bedsResult.data.filter((bed) => bed.status === "Vacant").length
+            : 0;
+
+          const totalStaff = Array.isArray(usersResult?.data)
+            ? usersResult.data.filter(
+                (user) =>
+                  user.status === "active" &&
+                  ["Admin", "Doctor", "ORStaff"].includes(user.role),
+              ).length
+            : 0;
+
           setData({
             stats: {
               totalCases: todayData.length,
-              activeRooms: todayData.filter((c) => c.status === "Active")
-                .length,
-              availableBeds: 12,
-              totalStaff: 8,
+              activeRooms: activeRoomCount,
+              availableBeds,
+              totalStaff,
             },
             recentBookings: todayData,
           });
@@ -93,7 +114,7 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <main className="space-y-4 p-2 md:p-2">
-        <section className="overflow-hidden rounded-[2rem] bg-blue-600 px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
+        <section className="overflow-hidden rounded-4xl bg-blue-600 px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
           <p className="text-sm font-semibold text-blue-100">
             The Art OR System
           </p>
@@ -115,7 +136,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/or-bookings"
-              className="inline-flex items-center justify-center rounded-2xl bg-amber-400 px-5 py-3 text-s font-bold !text-blue-800 shadow-lg shadow-blue-900/10 transition hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center rounded-2xl bg-amber-400 px-5 py-3 text-s font-bold text-blue-800! shadow-lg shadow-blue-900/10 transition hover:-translate-y-0.5"
             >
               จัดการคิวผ่าตัด
             </Link>
@@ -150,7 +171,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white/90 shadow-xl shadow-blue-100/30 backdrop-blur">
+        <div className="overflow-hidden rounded-4xl border border-slate-200/70 bg-white/90 shadow-xl shadow-blue-100/30 backdrop-blur">
           <div className="border-b border-slate-100 px-6 py-5 md:px-8">
             <h2 className="text-xl font-extrabold tracking-tight text-slate-800">
               รายการจัดคิวผ่าตัด
@@ -273,7 +294,7 @@ function StatCard({ label, value, icon: Icon, color }) {
     indigo: "text-indigo-600 bg-indigo-50",
   };
   return (
-    <div className="rounded-[1.5rem] border border-slate-200/70 bg-white/90 p-6 shadow-lg shadow-blue-100/30 backdrop-blur">
+    <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-6 shadow-lg shadow-blue-100/30 backdrop-blur">
       <div
         className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl ${colors[color]}`}
       >
