@@ -9,7 +9,7 @@ export default function RoomsPage() {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const API_BASE = "http://localhost:3000/api"; // ปรับให้ตรงกับ Backend ของพี่
+  const API_BASE = "/api";
 
   useEffect(() => {
     fetchRooms();
@@ -62,7 +62,7 @@ export default function RoomsPage() {
 
   return (
     <div className="space-y-6 p-4 md:p-6">
-      <section className="overflow-hidden rounded-[2rem] bg-slate-200 px-6 py-7 shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
+      <section className="overflow-hidden rounded-4xl bg-slate-200 px-6 py-7 shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
         <p className="text-sm font-semibold">The Art OR System</p>
         <h1 className="mt-2 text-3xl font-black tracking-tight">จัดการห้องผ่าตัด</h1>
         <p className="mt-2 text-sm font-medium">จัดการข้อมูลห้องผ่าตัด</p>

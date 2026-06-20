@@ -17,13 +17,13 @@ export default function DashboardPage() {
       try {
         setLoading(true);
         const token = localStorage.getItem("accessToken");
-        const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+        const apiBase = "/api";
         const headers = { Authorization: `Bearer ${token}` };
 
         const [scheduleResp, bedsResp, usersResp] = await Promise.all([
-          fetch(`${apiBase}/api/or-system/daily-schedule`, { headers }),
-          fetch(`${apiBase}/api/beds`, { headers }),
-          fetch(`${apiBase}/api/users`, { headers }),
+          fetch(`${apiBase}/or-system/daily-schedule`, { headers }),
+          fetch(`${apiBase}/beds`, { headers }),
+          fetch(`${apiBase}/users`, { headers }),
         ]);
 
         const [scheduleResult, bedsResult, usersResult] = await Promise.all([
@@ -85,17 +85,14 @@ export default function DashboardPage() {
   const handleUpdateTimeLog = async (bookingId, columnName) => {
     try {
       const token = localStorage.getItem("accessToken");
-      await fetch(
-        `http://localhost:3000/api/or-system/bookings/${bookingId}/time-log`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ columnName }),
+      await fetch(`/api/or-system/bookings/${bookingId}/time-log`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ columnName }),
+      });
       window.location.reload();
     } catch (err) {
       alert("ระบบขัดข้อง");

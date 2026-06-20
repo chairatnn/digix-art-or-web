@@ -13,7 +13,7 @@ export default function EditRoomPage() {
     status: "Available",
   });
   const [loading, setLoading] = useState(true);
-  const API_BASE = "http://localhost:3000/api";
+  const API_BASE = "/api";
 
   useEffect(() => {
     fetchRoom();

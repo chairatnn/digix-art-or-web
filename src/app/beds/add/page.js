@@ -5,8 +5,7 @@ import ProtectedRoute from "../../components/ProtectedRoute";
 
 export default function AddBedPage() {
   const router = useRouter();
-  // กำหนด API_BASE ให้ชี้ไปที่ Backend (Port 3000)
-  const API_BASE = "http://localhost:3000/api";
+  const API_BASE = "/api";
 
   const [formData, setFormData] = useState({
     bed_number: "",

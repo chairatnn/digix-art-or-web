@@ -6,14 +6,21 @@ import {
   Clock, 
   Globe 
 } from "lucide-react";
+import { headers } from "next/headers";
 
 async function getHealth() {
     try {
-        // เปลี่ยนจากใช้ header.host มาใช้ URL ของ Backend โดยตรง
-        // หากต้องการความปลอดภัย แนะนำให้เก็บไว้ในไฟล์ .env เป็น NEXT_PUBLIC_BACKEND_URL
-        const BACKEND_URL = 'http://localhost:3000'; 
-        
-        const resp = await fetch(`${BACKEND_URL}/api/health`, { 
+        const requestHeaders = await headers();
+        const protocol = requestHeaders.get('x-forwarded-proto') || 'https';
+        const host = requestHeaders.get('host');
+
+        if (!host) {
+            throw new Error('Missing host header');
+        }
+
+        const baseUrl = `${protocol}://${host}`;
+
+        const resp = await fetch(`${baseUrl}/api/health`, { 
             cache: 'no-store',
             next: { revalidate: 0 } 
         });

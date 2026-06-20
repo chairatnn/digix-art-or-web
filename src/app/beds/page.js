@@ -15,7 +15,7 @@ export default function BedsPage() {
   const [userRole, setUserRole] = useState("");
   const debounceRef = useRef(null);
 
-  const API_BASE = "http://localhost:3000/api";
+  const API_BASE = "/api";
 
   const getDisplayStatus = (status) => {
     if (status === "Maintenance") return "Maintenance";

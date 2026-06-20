@@ -11,7 +11,7 @@ export default function AddRoomPage() {
     room_type: "", // เพิ่ม field นี้
     status: "Available",
   });
-  const API_BASE = "http://localhost:3000/api";
+  const API_BASE = "/api";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -6,7 +6,7 @@ import ProtectedRoute from "../../components/ProtectedRoute";
 export default function EditBedPage() {
   const { id } = useParams();
   const router = useRouter();
-  const API_BASE = "http://localhost:3000/api";
+  const API_BASE = "/api";
   
   const [formData, setFormData] = useState({ bed_number: "", ward_name: "", status: "Vacant" });
   const [loading, setLoading] = useState(true);
