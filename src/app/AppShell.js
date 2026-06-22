@@ -114,7 +114,7 @@ export default function AppShell({ children }) {
       >
         {/* 🏢 เปลี่ยน Header โลโก้แบรนด์ด้านบน */}
         <div className="flex h-16 items-center gap-3 border-b border-slate-200/70 px-6">
-          <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-200">
+          <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-blue-[#8D746A] text-white shadow-lg shadow-blue-200">
             <Stethoscope className="h-5 w-5" />
           </div>
           <div>
@@ -137,7 +137,7 @@ export default function AppShell({ children }) {
                 href={item.href}
                 className={
                   active
-                    ? 'flex items-center gap-3 rounded-2xl bg-blue-600 px-3.5 py-2.75 text-sm !font-bold !text-white shadow-lg shadow-blue-200'
+                    ? 'flex items-center gap-3 rounded-2xl bg-[#8D746A] px-3.5 py-2.75 text-sm !font-bold !text-white shadow-lg shadow-blue-200'
                     : 'flex items-center gap-3 rounded-2xl px-3.5 py-2.75 text-sm font-semibold text-slate-600 transition-colors hover:bg-blue-50 hover:text-blue-700'
                 }
               >
@@ -166,7 +166,7 @@ export default function AppShell({ children }) {
               <p className="text-sm font-bold text-slate-900">{displayName || 'User'}</p>
               <p className="text-xs font-medium text-slate-500">{roleLabel || 'User'}</p>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-200">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#8D746A] text-sm font-bold text-white shadow-lg shadow-blue-200">
               {avatarLabel}
             </div>
             <button

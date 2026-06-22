@@ -111,7 +111,7 @@ export default function SettingsPage() {
 
           {/* Section 3: Sidebar */}
           <div className="space-y-6">
-            <section className="bg-blue-600 text-white rounded-3xl p-8 shadow-md">
+            <section className="bg-[#8D746A] text-white rounded-3xl p-8 shadow-md">
               <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
                 <User className="h-5 w-5" />
                 ฝ่ายสนับสนุน

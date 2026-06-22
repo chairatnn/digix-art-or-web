@@ -56,7 +56,7 @@ export default function MePage() {
           <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>
         ) : data ? (
           <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 h-32 relative">
+            <div className="bg-[#8D746A] h-32 relative">
               <div className="absolute -bottom-10 left-6">
                 <div className="w-20 h-20 bg-white rounded-full p-1 shadow-lg">
                   <div className="w-full h-full bg-slate-100 rounded-full flex items-center justify-center text-2xl font-bold text-blue-600 uppercase">

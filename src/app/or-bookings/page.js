@@ -485,7 +485,7 @@ export default function OrBookingsPage() {
 
         <div className="bg-white rounded-[2.5rem] border overflow-hidden">
           <table className="w-full text-left">
-            <thead className="bg-blue-600">
+            <thead className="bg-[#8D746A]">
               <tr>
                 <th className="px-8 py-4 text-[16px] font-bold text-slate-200 uppercase">
                   วันที่-เวลา

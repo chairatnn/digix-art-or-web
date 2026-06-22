@@ -172,7 +172,7 @@ export default function UsersPage() {
 
         <div className="bg-white rounded-[2rem] shadow-sm border overflow-hidden">
           <table className="w-full text-left">
-            <thead className="bg-blue-600">
+            <thead className="bg-[#8D746A]">
               <tr>
                 <th className="px-8 py-5 text-[16px] font-bold text-slate-200">
                   ชื่อ-นามสกุล

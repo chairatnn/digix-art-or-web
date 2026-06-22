@@ -112,7 +112,7 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <main className="space-y-4 p-2 md:p-2">
-        <section className="overflow-hidden rounded-4xl bg-blue-600 px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
+        <section className="overflow-hidden rounded-4xl bg-[#8D746A] px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
           <p className="text-sm font-semibold text-blue-100">
             The Art OR System
           </p>
