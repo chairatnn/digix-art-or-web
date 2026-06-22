@@ -22,9 +22,9 @@ export default function DashboardPage() {
         const headers = { Authorization: `Bearer ${token}` };
 
         const [scheduleResp, bedsResp, usersResp] = await Promise.all([
-          fetch(`${apiBase}/or-system/daily-schedule`, { headers }),
-          fetch(`${apiBase}/beds`, { headers }),
-          fetch(`${apiBase}/users`, { headers }),
+          fetch(`${apiBase}/api/or-system/daily-schedule`, { headers }),
+          fetch(`${apiBase}/api/beds`, { headers }),
+          fetch(`${apiBase}/api/users`, { headers }),
         ]);
 
         const [scheduleResult, bedsResult, usersResult] = await Promise.all([
