@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import ProtectedRoute from "../components/ProtectedRoute";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+
 export default function OrBookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [doctorsList, setDoctorsList] = useState([]);
@@ -54,7 +56,10 @@ export default function OrBookingsPage() {
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await fetch("/api/or-system/daily-schedule", {
+      // const res = await fetch("/api/or-system/daily-schedule", {
+      //   headers: { Authorization: `Bearer ${token}` },
+      // });
+      const res = await fetch(`${API_BASE}/api/or-system/daily-schedule`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const result = await res.json();
@@ -79,9 +84,18 @@ export default function OrBookingsPage() {
         params.set("exclude_booking_id", editingId);
       }
 
-      const res = await fetch(`/api/or-system/rooms-list?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // const res = await fetch(
+      //   `/api/or-system/rooms-list?${params.toString()}`,
+      //   {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   },
+      // );
+      const res = await fetch(
+        `${API_BASE}/api/or-system/rooms-list?${params.toString()}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       const result = await res.json();
       if (result.success) setRoomsList(result.data);
     } catch (err) {
@@ -102,9 +116,15 @@ export default function OrBookingsPage() {
         params.set("exclude_booking_id", editingId);
       }
 
-      const res = await fetch(`/api/or-system/beds-list?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // const res = await fetch(`/api/or-system/beds-list?${params.toString()}`, {
+      //   headers: { Authorization: `Bearer ${token}` },
+      // });
+      const res = await fetch(
+        `${API_BASE}/api/or-system/beds-list?${params.toString()}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       const result = await res.json();
       if (result.success) setBedsList(result.data);
     } catch (err) {
@@ -122,8 +142,12 @@ export default function OrBookingsPage() {
         const token = localStorage.getItem("accessToken");
         const headers = { Authorization: `Bearer ${token}` };
 
+        // const [docRes] = await Promise.all([
+        //   fetch("/api/or-system/doctors-list", { headers }),
+        // ]);
+
         const [docRes] = await Promise.all([
-          fetch("/api/or-system/doctors-list", { headers }),
+          fetch(`${API_BASE}/api/or-system/doctors-list`, { headers }),
         ]);
 
         const docResult = await docRes.json();
@@ -224,9 +248,12 @@ export default function OrBookingsPage() {
     setError(null);
     try {
       const token = localStorage.getItem("accessToken");
+      // const url = editingId
+      //   ? `/api/or-system/bookings/${editingId}`
+      //   : "/api/or-system/bookings";
       const url = editingId
-        ? `/api/or-system/bookings/${editingId}`
-        : "/api/or-system/bookings";
+        ? `${API_BASE}/api/or-system/bookings/${editingId}`
+        : `${API_BASE}/api/or-system/bookings`;
       const method = editingId ? "PUT" : "POST";
 
       const res = await fetch(url, {
@@ -253,7 +280,11 @@ export default function OrBookingsPage() {
     if (!confirm("🚨 ยืนยันการลบรายการนี้?")) return;
     try {
       const token = localStorage.getItem("accessToken");
-      await fetch(`/api/or-system/bookings/${id}`, {
+      // await fetch(`/api/or-system/bookings/${id}`, {
+      //   method: "DELETE",
+      //   headers: { Authorization: `Bearer ${token}` },
+      // });
+      await fetch(`${API_BASE}/api/or-system/bookings/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -481,7 +512,8 @@ export default function OrBookingsPage() {
                       {new Date(row.booking_date).toLocaleDateString("th-TH")}
                     </p>
                     <p className="text-xs">
-                      {row.estimated_start_time.substring(0, 5)} -{" "}{row.estimated_end_time.substring(0, 5)}
+                      {row.estimated_start_time.substring(0, 5)} -{" "}
+                      {row.estimated_end_time.substring(0, 5)}
                     </p>
                   </td>
                   <td className="px-4 py-4 text-sm">

@@ -11,13 +11,22 @@ export default function AddRoomPage() {
     room_type: "", // เพิ่ม field นี้
     status: "Available",
   });
-  const API_BASE = "/api";
+  // const API_BASE = "/api";
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await fetch(`${API_BASE}/rooms`, {
+      // const res = await fetch(`${API_BASE}/rooms`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify(room),
+      // });
+      const res = await fetch(`${API_BASE}/api/rooms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +51,9 @@ export default function AddRoomPage() {
     <div className="mx-auto max-w-2xl space-y-6 p-4 md:p-6">
       <section className="overflow-hidden rounded-[2rem] bg-blue-600 px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
         <p className="text-sm font-semibold text-blue-100">The Art OR System</p>
-        <h1 className="mt-2 text-3xl font-black tracking-tight">เพิ่มห้องผ่าตัดใหม่</h1>
+        <h1 className="mt-2 text-3xl font-black tracking-tight">
+          เพิ่มห้องผ่าตัดใหม่
+        </h1>
       </section>
 
       <button

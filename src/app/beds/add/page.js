@@ -5,7 +5,8 @@ import ProtectedRoute from "../../components/ProtectedRoute";
 
 export default function AddBedPage() {
   const router = useRouter();
-  const API_BASE = "/api";
+  // const API_BASE = "/api";
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
   const [formData, setFormData] = useState({
     bed_number: "",
@@ -18,7 +19,15 @@ export default function AddBedPage() {
     const token = localStorage.getItem("accessToken");
 
     try {
-      const resp = await fetch(`${API_BASE}/beds`, {
+      // const resp = await fetch(`${API_BASE}/beds`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify(formData),
+      // });
+      const resp = await fetch(`${API_BASE}/api/beds`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

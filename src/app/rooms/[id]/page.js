@@ -13,7 +13,8 @@ export default function EditRoomPage() {
     status: "Available",
   });
   const [loading, setLoading] = useState(true);
-  const API_BASE = "/api";
+  // const API_BASE = "/api";
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     fetchRoom();
@@ -22,7 +23,10 @@ export default function EditRoomPage() {
   const fetchRoom = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await fetch(`${API_BASE}/rooms/${id}`, {
+      // const res = await fetch(`${API_BASE}/rooms/${id}`, {
+      //   headers: { Authorization: `Bearer ${token}` },
+      // });
+      const res = await fetch(`${API_BASE}/api/rooms/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const json = await res.json();
@@ -42,7 +46,15 @@ export default function EditRoomPage() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await fetch(`${API_BASE}/rooms/${id}`, {
+      // const res = await fetch(`${API_BASE}/rooms/${id}`, {
+      //   method: "PUT",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify(room),
+      // });
+      const res = await fetch(`${API_BASE}/api/rooms/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -66,8 +78,12 @@ export default function EditRoomPage() {
     <div className="mx-auto max-w-2xl space-y-6 p-4 md:p-6">
       <section className="overflow-hidden rounded-[2rem] bg-blue-600 px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
         <p className="text-sm font-semibold text-blue-100">The Art OR System</p>
-        <h1 className="mt-2 text-3xl font-black tracking-tight">แก้ไขข้อมูลห้อง</h1>
-        <p className="mt-2 text-sm font-medium text-blue-50/90">{room.room_name || "กำลังโหลดข้อมูลห้อง..."}</p>
+        <h1 className="mt-2 text-3xl font-black tracking-tight">
+          แก้ไขข้อมูลห้อง
+        </h1>
+        <p className="mt-2 text-sm font-medium text-blue-50/90">
+          {room.room_name || "กำลังโหลดข้อมูลห้อง..."}
+        </p>
       </section>
 
       <button

@@ -15,7 +15,8 @@ export default function BedsPage() {
   const [userRole, setUserRole] = useState("");
   const debounceRef = useRef(null);
 
-  const API_BASE = "/api";
+  // const API_BASE = "/api";
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
   const getDisplayStatus = (status) => {
     if (status === "Maintenance") return "Maintenance";

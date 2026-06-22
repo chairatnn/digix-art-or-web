@@ -9,7 +9,8 @@ export default function RoomsPage() {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const API_BASE = "/api";
+  // const API_BASE = "/api";
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     fetchRooms();
@@ -18,7 +19,10 @@ export default function RoomsPage() {
   const fetchRooms = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await fetch(`${API_BASE}/rooms`, {
+      // const res = await fetch(`${API_BASE}/rooms`, {
+      //   headers: { Authorization: `Bearer ${token}` },
+      // });
+      const res = await fetch(`${API_BASE}/api/rooms`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const json = await res.json();
@@ -37,8 +41,12 @@ export default function RoomsPage() {
 
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await fetch(`${API_BASE}/rooms/${id}`, {
-        method: "DELETE", // ตรวจสอบว่าตรงนี้เป็น DELETE
+      // const res = await fetch(`${API_BASE}/rooms/${id}`, {
+      //   method: "DELETE", // ตรวจสอบว่าตรงนี้เป็น DELETE
+      //   headers: { Authorization: `Bearer ${token}` },
+      // });
+      const res = await fetch(`${API_BASE}/api/rooms/${id}`, {
+        method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -64,12 +72,16 @@ export default function RoomsPage() {
     <div className="space-y-6 p-4 md:p-6">
       <section className="overflow-hidden rounded-4xl bg-slate-200 px-6 py-7 shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
         <p className="text-sm font-semibold">The Art OR System</p>
-        <h1 className="mt-2 text-3xl font-black tracking-tight">จัดการห้องผ่าตัด</h1>
+        <h1 className="mt-2 text-3xl font-black tracking-tight">
+          จัดการห้องผ่าตัด
+        </h1>
         <p className="mt-2 text-sm font-medium">จัดการข้อมูลห้องผ่าตัด</p>
       </section>
 
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-xl font-extrabold tracking-tight text-slate-800">รายการห้อง</h2>
+        <h2 className="text-xl font-extrabold tracking-tight text-slate-800">
+          รายการห้อง
+        </h2>
         <Link
           href="/rooms/add"
           className="inline-flex items-center gap-2 rounded-2xl bg-amber-400 px-4 py-2.5 text-s font-bold text-blue-600 shadow-lg shadow-blue-200 transition hover:-translate-y-0.5"
@@ -82,17 +94,32 @@ export default function RoomsPage() {
         <table className="w-full text-left">
           <thead className="border-b border-slate-100 bg-blue-600">
             <tr>
-              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">ชื่อห้อง</th>
-              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">ประเภทห้อง</th>
-              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">สถานะ</th>
-              <th className="p-4 text-center text-[16px] font-bold uppercase tracking-wider text-slate-200">จัดการ</th>
+              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">
+                ชื่อห้อง
+              </th>
+              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">
+                ประเภทห้อง
+              </th>
+              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">
+                สถานะ
+              </th>
+              <th className="p-4 text-center text-[16px] font-bold uppercase tracking-wider text-slate-200">
+                จัดการ
+              </th>
             </tr>
           </thead>
           <tbody>
             {rooms.map((room) => (
-              <tr key={room.id} className="border-b border-slate-50 hover:bg-blue-50/40">
-                <td className="p-4 font-semibold text-slate-800">{room.room_name}</td>
-                <td className="p-4 font-semibold text-slate-800">{room.room_type}</td>
+              <tr
+                key={room.id}
+                className="border-b border-slate-50 hover:bg-blue-50/40"
+              >
+                <td className="p-4 font-semibold text-slate-800">
+                  {room.room_name}
+                </td>
+                <td className="p-4 font-semibold text-slate-800">
+                  {room.room_type}
+                </td>
                 <td className="p-4">
                   <span
                     className={`rounded-full px-3 py-1 text-[14px] font-bold ${getStatusStyles(room.status)}`}
