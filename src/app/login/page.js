@@ -134,7 +134,7 @@ export default function LoginPage() {
         </div>
 
         <button
-          className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-3 text-sm font-bold text-white shadow-md transition-all active:scale-[0.98] disabled:opacity-50"
+          className="w-full rounded-xl bg-[#8D746A] px-4 py-3 text-sm font-bold text-white shadow-md transition-all active:scale-[0.98] disabled:opacity-50"
           disabled={loading}
         >
           {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
@@ -144,7 +144,7 @@ export default function LoginPage() {
       <p className="text-sm text-center text-gray-500">
         ยังไม่มีบัญชี?{" "}
         <a
-          className="!text-amber-600 font-semibold hover:underline"
+          className="!text-blue-600 font-semibold hover:underline"
           href="/register"
         >
           สร้างบัญชีผู้ใช้ใหม่
