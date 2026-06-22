@@ -17,7 +17,8 @@ export default function DashboardPage() {
       try {
         setLoading(true);
         const token = localStorage.getItem("accessToken");
-        const apiBase = "/api";
+        // const apiBase = "/api";
+        const apiBase = process.env.NEXT_PUBLIC_API_URL; // ใช้งานผ่าน deploy
         const headers = { Authorization: `Bearer ${token}` };
 
         const [scheduleResp, bedsResp, usersResp] = await Promise.all([
