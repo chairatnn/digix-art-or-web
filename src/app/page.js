@@ -86,7 +86,15 @@ export default function DashboardPage() {
   const handleUpdateTimeLog = async (bookingId, columnName) => {
     try {
       const token = localStorage.getItem("accessToken");
-      await fetch(`/api/or-system/bookings/${bookingId}/time-log`, {
+      // await fetch(`/api/or-system/bookings/${bookingId}/time-log`, {
+      //   method: "PATCH",
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ columnName }),
+      // });
+      await fetch(`${apiBase}/api/or-system/bookings/${bookingId}/time-log`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -270,7 +278,54 @@ export default function DashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {/* ... โค้ด tbody เดิมของคุณ ... */}
+              {recentBookings.length > 0 ? (
+                recentBookings.map((row) => (
+                  <tr key={row.id} className="hover:bg-slate-50">
+                    <td className="px-8 py-5 font-bold text-blue-600 text-sm">
+                      {row.estimated_start_time?.substring(0, 5)} -{" "}
+                      {row.estimated_end_time?.substring(0, 5)}
+                    </td>
+                    <td className="px-8 py-5">
+                      <p className="text-sm font-bold text-slate-900">
+                        {row.patient_name}
+                      </p>
+                      <p className="text-[10px] text-slate-600 font-bold">
+                        {row.hn}
+                      </p>
+                    </td>
+                    <td className="px-8 py-5">
+                      <p className="text-sm font-bold text-slate-900">
+                        {row.procedure_name}
+                      </p>
+                      <p className="text-[10px] text-slate-500 font-medium">
+                        {row.doctor_name}
+                      </p>
+                    </td>
+                    <td className="px-8 py-5">
+                      <p className="text-sm font-bold text-slate-800">
+                        {row.room_name}
+                      </p>
+                      <p className="text-[11px] text-slate-500 font-medium">
+                        พักฟื้น {row.bed_number}
+                      </p>
+                    </td>
+                    <td className="px-8 py-5">
+                      <div className="flex gap-2">
+                        {renderStatusButtons(row)}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="text-center py-10 text-slate-400 font-bold"
+                  >
+                    วันนี้ยังไม่มีคิวผ่าตัด
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

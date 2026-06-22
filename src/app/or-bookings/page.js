@@ -483,65 +483,113 @@ export default function OrBookingsPage() {
           </form>
         </div>
 
-        <div className="bg-white rounded-[2.5rem] border overflow-hidden">
-          <table className="w-full text-left">
-            <thead className="bg-[#8D746A]">
-              <tr>
-                <th className="px-8 py-4 text-[16px] font-bold text-slate-200 uppercase">
-                  วันที่-เวลา
-                </th>
-                <th className="px-8 py-4 text-[16px] font-bold text-slate-200 uppercase">
-                  ข้อมูลคนไข้
-                </th>
-                <th className="px-8 py-4 text-[16px] font-bold text-slate-200 uppercase">
-                  ข้อมูลแพทย์
-                </th>
-                <th className="px-8 py-4 text-[16px] font-bold text-slate-200 uppercase">
-                  ห้อง/เตียง
-                </th>
-                <th className="px-8 py-4 text-[16px] font-bold text-slate-200 uppercase text-center">
-                  จัดการ
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {bookings.map((row) => (
-                <tr key={row.id}>
-                  <td className="px-4 py-4 text-sm text-blue-600 font-bold">
-                    <p>
-                      {new Date(row.booking_date).toLocaleDateString("th-TH")}
-                    </p>
-                    <p className="text-xs">
-                      {row.estimated_start_time.substring(0, 5)} -{" "}
-                      {row.estimated_end_time.substring(0, 5)}
-                    </p>
-                  </td>
-                  <td className="px-4 py-4 text-sm">
-                    <p>{row.patient_name}</p>
-                    <p className="text-xs">{row.hn}</p>
-                  </td>
-                  <td className="px-8 py-4 text-sm">
-                    <p>{row.doctor_name}</p>
-                    <p>{row.specialty}</p>
-                  </td>
-                  <td className="px-8 py-4 text-sm">
-                    <span className="block font-bold">{row.room_name}</span>
-                    <span className="text-xs text-slate-600">
-                      {row.bed_id
-                        ? `${row.ward_name || ""} ${row.bed_number || ""}`
-                        : "-"}
-                    </span>
-                  </td>
-                  <td className="px-8 py-4 text-center">
+        {/* --- ส่วนมือถือ: แสดงเป็น Card List --- */}
+        <div className="md:hidden space-y-4">
+          {bookings.length > 0 ? (
+            bookings.map((row) => (
+              <div
+                key={row.id}
+                className="bg-white p-5 rounded-[2rem] border border-slate-200 shadow-sm"
+              >
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-[11px] font-bold text-[#8D746A] bg-[#8D746A]/10 px-3 py-1 rounded-full">
+                    {new Date(row.booking_date).toLocaleDateString("th-TH")} |{" "}
+                    {row.estimated_start_time.substring(0, 5)} น.
+                  </span>
+                  <div className="flex gap-2">
                     <button
                       onClick={() => handleEditClick(row)}
-                      className="text-blue-600 font-bold text-sm mr-3"
+                      className="text-[#8D746A] font-bold text-xs"
                     >
                       แก้ไข
                     </button>
                     <button
                       onClick={() => handleDelete(row.id)}
-                      className="text-rose-600 font-bold text-sm"
+                      className="text-rose-600 font-bold text-xs"
+                    >
+                      ลบ
+                    </button>
+                  </div>
+                </div>
+                <h3 className="font-bold text-slate-900">{row.patient_name}</h3>
+                <p className="text-[11px] font-bold text-slate-500 mb-2">
+                  HN: {row.hn}
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-600">
+                  <p>
+                    หมอ: <span className="font-bold">{row.doctor_name}</span>
+                  </p>
+                  <p>
+                    ห้อง: <span className="font-bold">{row.room_name}</span>
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center py-10 text-slate-400 font-bold">
+              ยังไม่มีข้อมูลการจองคิว
+            </p>
+          )}
+        </div>
+
+        {/* --- ส่วน Desktop: ตารางเดิมของคุณ (ครอบด้วย hidden md:block) --- */}
+        <div className="hidden md:block overflow-hidden rounded-[2.5rem] border">
+          <table className="w-full text-left">
+            <thead className="bg-[#8D746A]">
+              <tr>
+                <th className="px-8 py-4 text-[14px] font-bold text-slate-200 uppercase">
+                  วันที่-เวลา
+                </th>
+                <th className="px-8 py-4 text-[14px] font-bold text-slate-200 uppercase">
+                  ข้อมูลคนไข้
+                </th>
+                <th className="px-8 py-4 text-[14px] font-bold text-slate-200 uppercase">
+                  ข้อมูลแพทย์
+                </th>
+                <th className="px-8 py-4 text-[14px] font-bold text-slate-200 uppercase">
+                  ห้อง/เตียง
+                </th>
+                <th className="px-8 py-4 text-[14px] font-bold text-slate-200 uppercase text-center">
+                  จัดการ
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {bookings.map((row) => (
+                <tr key={row.id} className="hover:bg-slate-50">
+                  <td className="px-8 py-4 text-sm text-blue-800 font-bold">
+                    <p>
+                      {new Date(row.booking_date).toLocaleDateString("th-TH")}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      {row.estimated_start_time.substring(0, 5)} -{" "}
+                      {row.estimated_end_time.substring(0, 5)}
+                    </p>
+                  </td>
+                  <td className="px-8 py-4 text-sm">
+                    <p className="font-bold">{row.patient_name}</p>
+                    <p className="text-xs text-slate-500">{row.hn}</p>
+                  </td>
+                  <td className="px-8 py-4 text-sm">
+                    <p>{row.doctor_name}</p>
+                    <p className="text-xs text-slate-500">{row.specialty}</p>
+                  </td>
+                  <td className="px-8 py-4 text-sm">
+                    <p className="font-bold">{row.room_name}</p>
+                    <p className="text-xs text-slate-500">
+                      {row.bed_id ? `เตียง ${row.bed_number || ""}` : "-"}
+                    </p>
+                  </td>
+                  <td className="px-8 py-4 text-center">
+                    <button
+                      onClick={() => handleEditClick(row)}
+                      className="text-blue-600 font-bold text-xs mr-3"
+                    >
+                      แก้ไข
+                    </button>
+                    <button
+                      onClick={() => handleDelete(row.id)}
+                      className="text-rose-600 font-bold text-xs"
                     >
                       ลบ
                     </button>
