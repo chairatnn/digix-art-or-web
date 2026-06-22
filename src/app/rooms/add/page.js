@@ -49,7 +49,7 @@ export default function AddRoomPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-4 md:p-6">
-      <section className="overflow-hidden rounded-[2rem] bg-blue-600 px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
+      <section className="overflow-hidden rounded-[2rem] bg-[#8D746A] px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
         <p className="text-sm font-semibold text-blue-100">The Art OR System</p>
         <h1 className="mt-2 text-3xl font-black tracking-tight">
           เพิ่มห้องผ่าตัดใหม่
@@ -113,7 +113,7 @@ export default function AddRoomPage() {
         <div className="pt-4">
           <button
             type="submit"
-            className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-2xl bg-[#8D746A] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
           >
             <Save className="h-4 w-4" /> บันทึกข้อมูล
           </button>

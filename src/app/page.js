@@ -109,6 +109,35 @@ export default function DashboardPage() {
 
   const { stats, recentBookings } = data;
 
+  const renderStatusButtons = (row) => (
+    <>
+      {!row.patient_in_time && (
+        <button
+          onClick={() => handleUpdateTimeLog(row.id, "patient_in_time")}
+          className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-bold hover:bg-blue-100"
+        >
+          เตรียม
+        </button>
+      )}
+      {row.patient_in_time && !row.incision_time && (
+        <button
+          onClick={() => handleUpdateTimeLog(row.id, "incision_time")}
+          className="px-3 py-1.5 bg-amber-50 text-amber-600 rounded-lg text-[10px] font-bold hover:bg-amber-100"
+        >
+          ผ่าตัด
+        </button>
+      )}
+      {row.incision_time && !row.operation_complete_time && (
+        <button
+          onClick={() => handleUpdateTimeLog(row.id, "operation_complete_time")}
+          className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-bold hover:bg-emerald-100"
+        >
+          เสร็จ
+        </button>
+      )}
+    </>
+  );
+
   return (
     <ProtectedRoute>
       <main className="space-y-4 p-2 md:p-2">
@@ -169,8 +198,53 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="overflow-hidden rounded-4xl border border-slate-200/70 bg-white/90 shadow-xl shadow-blue-100/30 backdrop-blur">
-          <div className="border-b border-slate-100 px-6 py-5 md:px-8">
+        {/* 1. ส่วนของ Card List (สำหรับมือถือ) */}
+        <div className="md:hidden space-y-4">
+          {recentBookings.length > 0 ? (
+            recentBookings.map((row) => (
+              <div
+                key={row.id}
+                className="rounded-[2rem] border border-slate-200/70 bg-white p-5 shadow-lg shadow-blue-100/20"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <span className="text-[12px] font-bold text-[#8D746A] bg-[#8D746A]/10 px-3 py-1 rounded-full">
+                    {row.estimated_start_time?.substring(0, 5)} -{" "}
+                    {row.estimated_end_time?.substring(0, 5)}
+                  </span>
+                  <p className="text-xs font-bold text-slate-800">
+                    {row.room_name}
+                  </p>
+                </div>
+
+                <h3 className="font-bold text-slate-900">{row.patient_name}</h3>
+                <p className="text-[11px] font-bold text-slate-500 mb-2">
+                  {row.hn}
+                </p>
+                <p className="text-xs text-slate-600 mb-4">
+                  {row.procedure_name} ({row.doctor_name})
+                </p>
+
+                <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                  <p className="text-[10px] font-bold text-slate-400">
+                    พักฟื้น {row.bed_number}
+                  </p>
+                  <div className="flex gap-2">
+                    {/* ปุ่มสถานะเหมือนเดิมแต่จัดอยู่ใน Card */}
+                    {renderStatusButtons(row)}
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center py-10 text-slate-400 font-bold">
+              วันนี้ยังไม่มีคิวผ่าตัด
+            </p>
+          )}
+        </div>
+
+        {/* 2. ส่วนของ Table (สำหรับ Desktop เท่านั้น) */}
+        <div className="hidden md:block overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white/90 shadow-xl shadow-blue-100/30 backdrop-blur">
+          <div className="border-b border-slate-100 px-8 py-5">
             <h2 className="text-xl font-extrabold tracking-tight text-slate-800">
               รายการจัดคิวผ่าตัด
             </h2>
@@ -196,86 +270,7 @@ export default function DashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {recentBookings.length > 0 ? (
-                recentBookings.map((row) => (
-                  <tr key={row.id} className="hover:bg-slate-50">
-                    <td className="px-8 py-5 font-bold text-blue-600 text-sm">
-                      {row.estimated_start_time?.substring(0, 5)} -{" "}
-                      {row.estimated_end_time?.substring(0, 5)}
-                    </td>
-                    <td className="px-8 py-5">
-                      <p className="text-sm font-bold text-slate-900">
-                        {row.patient_name}
-                      </p>
-                      <p className="text-[10px] text-slate-600 font-bold">
-                        {row.hn}
-                      </p>
-                    </td>
-                    <td className="px-8 py-5">
-                      <p className="text-sm font-bold text-slate-900">
-                        {row.procedure_name}
-                      </p>
-                      <p className="text-[10px] text-slate-500 font-medium">
-                        {row.doctor_name}
-                      </p>
-                    </td>
-                    <td className="px-8 py-5">
-                      <p className="text-sm font-bold text-slate-800">
-                        {row.room_name}
-                      </p>
-                      <p className="text-[11px] text-slate-500 font-medium">
-                        พักฟื้น {row.bed_number}
-                      </p>
-                    </td>
-                    <td className="px-8 py-5">
-                      <div className="flex gap-2">
-                        {!row.patient_in_time && (
-                          <button
-                            onClick={() =>
-                              handleUpdateTimeLog(row.id, "patient_in_time")
-                            }
-                            className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-bold hover:bg-blue-100"
-                          >
-                            เตรียม
-                          </button>
-                        )}
-                        {row.patient_in_time && !row.incision_time && (
-                          <button
-                            onClick={() =>
-                              handleUpdateTimeLog(row.id, "incision_time")
-                            }
-                            className="px-3 py-1.5 bg-amber-50 text-amber-600 rounded-lg text-[10px] font-bold hover:bg-amber-100"
-                          >
-                            ผ่าตัด
-                          </button>
-                        )}
-                        {row.incision_time && !row.operation_complete_time && (
-                          <button
-                            onClick={() =>
-                              handleUpdateTimeLog(
-                                row.id,
-                                "operation_complete_time",
-                              )
-                            }
-                            className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-bold hover:bg-emerald-100"
-                          >
-                            เสร็จ
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="5"
-                    className="text-center py-10 text-slate-400 font-bold"
-                  >
-                    วันนี้ยังไม่มีคิวผ่าตัด
-                  </td>
-                </tr>
-              )}
+              {/* ... โค้ด tbody เดิมของคุณ ... */}
             </tbody>
           </table>
         </div>

@@ -92,7 +92,7 @@ export default function RoomsPage() {
 
       <div className="overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-white/90 shadow-xl shadow-blue-100/30 backdrop-blur">
         <table className="w-full text-left">
-          <thead className="border-b border-slate-100 bg-blue-600">
+          <thead className="border-b border-slate-100 bg-[#8D746A]">
             <tr>
               <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">
                 ชื่อห้อง

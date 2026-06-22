@@ -52,7 +52,7 @@ export default function AddBedPage() {
   return (
     <ProtectedRoute>
       <main className="mx-auto max-w-2xl space-y-6 p-4 md:p-6">
-        <section className="overflow-hidden rounded-[2rem] bg-blue-600 px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
+        <section className="overflow-hidden rounded-[2rem] bg-[#8D746A] px-6 py-7 text-white shadow-2xl shadow-blue-200/60 md:px-8 md:py-9">
           <p className="text-sm font-semibold text-blue-100">
             The Art OR System
           </p>
@@ -114,7 +114,7 @@ export default function AddBedPage() {
             </button>
             <button
               type="submit"
-              className="w-full rounded-2xl bg-blue-600 py-3 font-bold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
+              className="w-full rounded-2xl bg-[#8D746A] py-3 font-bold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
             >
               บันทึก
             </button>
