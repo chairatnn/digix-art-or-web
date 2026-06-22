@@ -170,7 +170,50 @@ export default function UsersPage() {
           />
         </div>
 
-        <div className="bg-white rounded-[2rem] shadow-sm border overflow-hidden">
+        {/* --- Mobile: Card View --- */}
+        <div className="md:hidden space-y-4">
+          {filteredUsers.map((u) => (
+            <div
+              key={u.id}
+              className="bg-white p-5 rounded-[2rem] border shadow-sm flex flex-col gap-2"
+            >
+              <div className="flex justify-between items-start">
+                <p className="font-bold text-lg text-slate-900">{u.name}</p>
+                <span className="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded-md uppercase">
+                  {u.role}
+                </span>
+              </div>
+              <p className="text-sm text-slate-500">{u.email}</p>
+              <div className="flex justify-end gap-4 mt-2 pt-3 border-t">
+                <button
+                  onClick={() => openEditModal(u, "view")}
+                  className="text-blue-600 p-2"
+                >
+                  <Eye size={18} />
+                </button>
+                {isAdmin && (
+                  <>
+                    <button
+                      onClick={() => openEditModal(u, "edit")}
+                      className="text-slate-600 p-2"
+                    >
+                      <Edit2 size={18} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(u.id, u.name)}
+                      className="text-rose-500 p-2"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* --- Desktop: Table View --- */}
+        <div className="hidden md:block bg-white rounded-[2rem] shadow-sm border overflow-hidden">
           <table className="w-full text-left">
             <thead className="bg-[#8D746A]">
               <tr>
@@ -194,8 +237,11 @@ export default function UsersPage() {
                   <td className="px-8 py-6 font-bold">{u.name}</td>
                   <td className="px-8 py-6 font-bold">{u.email}</td>
                   <td className="px-8 py-6">{u.role}</td>
-                  <td className="px-8 py-6 text-right flex justify-end gap-3">
-                    <button onClick={() => openEditModal(u, "view")} className="text-blue-600">
+                  <td className="px-8 py-6 text-right flex justify-center gap-4">
+                    <button
+                      onClick={() => openEditModal(u, "view")}
+                      className="text-blue-600"
+                    >
                       <Eye size={18} />
                     </button>
                     {isAdmin && (

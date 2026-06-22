@@ -90,20 +90,60 @@ export default function RoomsPage() {
         </Link>
       </div>
 
-      <div className="overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-white/90 shadow-xl shadow-blue-100/30 backdrop-blur">
+      <div className="md:hidden space-y-4">
+        {rooms.map((room) => (
+          <div
+            key={room.id}
+            className="bg-white p-5 rounded-[1.75rem] border border-slate-200/70 shadow-lg shadow-blue-100/20"
+          >
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <h3 className="font-bold text-slate-800 text-lg">
+                  {room.room_name}
+                </h3>
+                <p className="text-xs text-slate-500 font-bold">
+                  {room.room_type}
+                </p>
+              </div>
+              <span
+                className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase ${getStatusStyles(room.status)}`}
+              >
+                {room.status}
+              </span>
+            </div>
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-50">
+              <button
+                onClick={() => router.push(`/rooms/${room.id}`)}
+                className="p-2 rounded-xl bg-slate-50 text-blue-600"
+              >
+                <Pencil className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => deleteRoom(room.id)}
+                className="p-2 rounded-xl bg-red-50 text-red-600"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* --- 2. Desktop: Table View --- */}
+      <div className="hidden md:block overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-white/90 shadow-xl shadow-blue-100/30 backdrop-blur">
         <table className="w-full text-left">
           <thead className="border-b border-slate-100 bg-[#8D746A]">
             <tr>
-              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">
+              <th className="p-4 text-[14px] font-bold uppercase tracking-wider text-slate-200">
                 ชื่อห้อง
               </th>
-              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">
+              <th className="p-4 text-[14px] font-bold uppercase tracking-wider text-slate-200">
                 ประเภทห้อง
               </th>
-              <th className="p-4 text-[16px] font-bold uppercase tracking-wider text-slate-200">
+              <th className="p-4 text-[14px] font-bold uppercase tracking-wider text-slate-200">
                 สถานะ
               </th>
-              <th className="p-4 text-center text-[16px] font-bold uppercase tracking-wider text-slate-200">
+              <th className="p-4 text-center text-[14px] font-bold uppercase tracking-wider text-slate-200">
                 จัดการ
               </th>
             </tr>
@@ -112,7 +152,7 @@ export default function RoomsPage() {
             {rooms.map((room) => (
               <tr
                 key={room.id}
-                className="border-b border-slate-50 hover:bg-blue-50/40"
+                className="border-b border-slate-50 hover:bg-slate-50"
               >
                 <td className="p-4 font-semibold text-slate-800">
                   {room.room_name}
@@ -122,7 +162,7 @@ export default function RoomsPage() {
                 </td>
                 <td className="p-4">
                   <span
-                    className={`rounded-full px-3 py-1 text-[14px] font-bold ${getStatusStyles(room.status)}`}
+                    className={`rounded-full px-3 py-1 text-[12px] font-bold ${getStatusStyles(room.status)}`}
                   >
                     {room.status}
                   </span>
